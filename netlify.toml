@@ -1,19 +1,17 @@
 [build]
   command = "pip install -r requirements.txt"
   functions = "backend"
-  publish = "."
+  publish = "frontend"
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/serverless"
   status = 200
 
-[context.production]
-  environment = { 
-    PYTHON_VERSION = "3.9",
-    FLASK_ENV = "production",
-    PYTHONPATH = "."
-  }
+[context.production.environment]
+  PYTHON_VERSION = "3.9"
+  FLASK_ENV = "production"
+  PYTHONPATH = "."
 
 [[headers]]
   for = "/*"
@@ -26,6 +24,11 @@
 
 [[redirects]]
   from = "/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/signup"
   to = "/signup.html"
   status = 200
 
