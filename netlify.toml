@@ -1,17 +1,21 @@
 [build]
   command = "pip install -r requirements.txt"
-  functions = "backend"
+  functions = "netlify/functions"
   publish = "frontend"
 
+[functions]
+  node_bundler = "esbuild"
+
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/serverless"
+  from = "/api/resume-generator"
+  to = "/.netlify/functions/resume-generator"
   status = 200
 
 [context.production.environment]
   PYTHON_VERSION = "3.9"
   FLASK_ENV = "production"
   PYTHONPATH = "."
+  NODE_VERSION = "18"
 
 [[headers]]
   for = "/*"
