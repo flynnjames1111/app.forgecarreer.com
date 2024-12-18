@@ -1,0 +1,40 @@
+[build]
+  command = "pip install -r requirements.txt"
+  functions = "backend"
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/serverless"
+  status = 200
+
+[context.production]
+  environment = { 
+    PYTHON_VERSION = "3.9",
+    FLASK_ENV = "production",
+    PYTHONPATH = "."
+  }
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+  from = "/"
+  to = "/signup.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[build.environment]
+  PYTHON_VERSION = "3.9"
+  PIP_VERSION = "23.3.2"
+  NETLIFY_USE_PNPM = "true"

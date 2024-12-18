@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAI - Advanced Resume Generation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .advanced-settings-modal .modal-dialog {
+            max-width: 800px;
+        }
+        .prompt-config-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .tooltip-info {
+            cursor: help;
+            color: #6c757d;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container signup-page">
+        <div class="signup-container">
+            <h1>Create Your ResumeAI Account</h1>
+            
+            <form id="signupForm" class="form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+            </form>
+
+            <div class="resume-generation-section">
+                <h2>Generate Your Professional Resume</h2>
+                
+                <div class="ai-configuration">
+                    <h3>AI Resume Configuration</h3>
+                    
+                    <div class="form-group">
+                        <label for="aiConfigProfile">AI Configuration Profile</label>
+                        <select id="aiConfigProfile" name="aiConfigProfile">
+                            <option value="professional">Professional Standard</option>
+                            <option value="entry-level">Entry Level</option>
+                            <option value="executive">Executive Level</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customPromptKey">Custom Prompt Key</label>
+                        <select id="customPromptKey" name="customPromptKey">
+                            <option value="tone">Tone</option>
+                            <option value="formatting">Formatting</option>
+                            <option value="achievements">Achievements</option>
+                            <option value="branding">Personal Branding</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customPromptInput">Custom AI Instruction</label>
+                        <textarea 
+                            id="customPromptInput" 
+                            name="customPromptInput" 
+                            placeholder="Enter specific instructions to customize your resume generation"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <form id="resumeGenerationForm" class="form">
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="technology">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="education">Education</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experienceLevel">Experience Level</label>
+                        <select id="experienceLevel" name="experienceLevel" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="entry">Entry Level</option>
+                            <option value="mid">Mid Level</option>
+                            <option value="senior">Senior Level</option>
+                            <option value="executive">Executive Level</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills">Key Skills (comma-separated)</label>
+                        <input type="text" id="skills" name="skills" placeholder="e.g. Python, Machine Learning, Data Analysis">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="professionalSummary">Professional Summary</label>
+                        <textarea id="professionalSummary" name="professionalSummary" rows="4" placeholder="Briefly describe your professional background and career goals"></textarea>
+                    </div>
+                    
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#advancedPromptModal">
+                        <i class="fas fa-cogs"></i> Advanced AI Configuration
+                    </button>
+                    
+                    <button type="submit" class="btn btn-primary">Generate Resume</button>
+                </form>
+
+                <div id="resumePreview" class="resume-preview">
+                    <h3>Resume Preview</h3>
+                    <p>Your AI-generated resume will appear here.</p>
+                </div>
+
+                <button id="downloadResume" class="btn btn-secondary" disabled>Download Resume</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Prompt Configuration Modal -->
+    <div class="modal fade advanced-settings-modal" id="advancedPromptModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-magic"></i> Advanced AI Prompt Configuration
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="prompt-config-section">
+                        <h6>
+                            Prompt Context 
+                            <i class="fas fa-info-circle tooltip-info" 
+                               title="Select the context that best matches your career stage and desired resume style."></i>
+                        </h6>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="promptContext" id="entryContext" autocomplete="off" value="entry">
+                            <label class="btn btn-outline-primary" for="entryContext">Entry Level</label>
+
+                            <input type="radio" class="btn-check" name="promptContext" id="professionalContext" autocomplete="off" value="professional">
+                            <label class="btn btn-outline-primary" for="professionalContext">Professional</label>
+
+                            <input type="radio" class="btn-check" name="promptContext" id="executiveContext" autocomplete="off" value="executive">
+                            <label class="btn btn-outline-primary" for="executiveContext">Executive</label>
+                        </div>
+                    </div>
+
+                    <div class="prompt-config-section">
+                        <h6>
+                            Tone Configuration 
+                            <i class="fas fa-info-circle tooltip-info" 
+                               title="Adjust the AI's tone to match your professional persona."></i>
+                        </h6>
+                        <select class="form-select" id="toneSetting">
+                            <option value="professional">Professional and Formal</option>
+                            <option value="conversational">Conversational and Friendly</option>
+                            <option value="creative">Creative and Dynamic</option>
+                            <option value="technical">Technical and Precise</option>
+                        </select>
+                    </div>
+
+                    <div class="prompt-config-section">
+                        <h6>
+                            Custom Prompt Injection 
+                            <i class="fas fa-info-circle tooltip-info" 
+                               title="Add custom instructions to further personalize your resume generation."></i>
+                        </h6>
+                        <textarea class="form-control" id="customPromptInstructions" rows="4" 
+                                  placeholder="Enter any specific instructions for resume generation (e.g., 'Emphasize leadership skills', 'Focus on technical achievements')"></textarea>
+                    </div>
+
+                    <div class="prompt-config-section">
+                        <h6>
+                            AI Generation Parameters 
+                            <i class="fas fa-info-circle tooltip-info" 
+                               title="Fine-tune AI creativity and output consistency."></i>
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="creativitySlider" class="form-label">Creativity Level</label>
+                                <input type="range" class="form-range" min="0" max="1" step="0.1" id="creativitySlider" value="0.7">
+                                <small class="text-muted">Lower values produce more consistent, conservative outputs</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="maxTokens" class="form-label">Max Resume Length</label>
+                                <select class="form-select" id="maxTokens">
+                                    <option value="500">Short (500 tokens)</option>
+                                    <option value="1000" selected>Standard (1000 tokens)</option>
+                                    <option value="1500">Detailed (1500 tokens)</option>
+                                    <option value="2000">Comprehensive (2000 tokens)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveAdvancedSettings">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const advancedSettingsModal = document.getElementById('advancedPromptModal');
+            const saveAdvancedSettingsBtn = document.getElementById('saveAdvancedSettings');
+            const resumeGenerationForm = document.getElementById('resumeGenerationForm');
+
+            // Advanced settings storage
+            let advancedSettings = {};
+
+            saveAdvancedSettingsBtn.addEventListener('click', function() {
+                advancedSettings = {
+                    promptContext: document.querySelector('input[name="promptContext"]:checked')?.value,
+                    tone: document.getElementById('toneSetting').value,
+                    customPrompt: document.getElementById('customPromptInstructions').value,
+                    creativity: document.getElementById('creativitySlider').value,
+                    maxTokens: document.getElementById('maxTokens').value
+                };
+
+                // Close modal
+                const modalInstance = bootstrap.Modal.getInstance(advancedSettingsModal);
+                modalInstance.hide();
+            });
+
+            resumeGenerationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = {
+                    full_name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    industry: document.getElementById('industry').value,
+                    experience_level: document.getElementById('experienceLevel').value,
+                    skills: document.getElementById('skills').value,
+                    professional_summary: document.getElementById('professionalSummary').value,
+                    custom_instructions: advancedSettings
+                };
+
+                // Send data to backend
+                fetch('/generate-resume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle resume generation response
+                    console.log(data);
+                    // You might want to display the resume or redirect to a results page
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

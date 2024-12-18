@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAI - User Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --bg-light: #f4f6f9;
+        }
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Arial', sans-serif;
+        }
+        .dashboard-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: scale(1.02);
+        }
+        .ai-insights-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        .activity-timeline .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .badge-custom {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        #aiInsightsModal .modal-content {
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid px-4 py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="fas fa-chart-line"></i> ResumeAI Dashboard
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Usage Statistics -->
+            <div class="col-md-4">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-chart-pie"></i> Usage Statistics
+                        </h5>
+                        <canvas id="usageChart"></canvas>
+                        <div class="text-center mt-3">
+                            <span class="badge badge-custom">Total Resumes: 24</span>
+                            <span class="badge badge-custom">Optimizations: 12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="col-md-4">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-history"></i> Recent Activity
+                        </h5>
+                        <ul class="list-group activity-timeline">
+                            <li class="list-group-item">
+                                <span>Marketing Resume Generated</span>
+                                <span class="badge bg-primary">2 mins ago</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>Tech Resume Optimized</span>
+                                <span class="badge bg-success">15 mins ago</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>Executive Profile Created</span>
+                                <span class="badge bg-warning">1 hour ago</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights Card -->
+            <div class="col-md-4">
+                <div class="card dashboard-card ai-insights-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">
+                            <i class="fas fa-robot"></i> AI Insights
+                        </h5>
+                        <p class="card-text">
+                            Your recent resumes show strong potential in tech and marketing sectors.
+                            Consider highlighting leadership skills and quantifiable achievements.
+                        </p>
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#aiInsightsModal">
+                            Detailed Insights <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Generation Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-file-alt"></i> Resume Generation
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary w-100 mb-2">
+                                    <i class="fas fa-plus"></i> New Resume
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-secondary w-100 mb-2">
+                                    <i class="fas fa-edit"></i> Optimize Existing Resume
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Resume Name</th>
+                                        <th>Industry</th>
+                                        <th>Last Modified</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tech Marketing Resume</td>
+                                        <td>Technology</td>
+                                        <td>Dec 17, 2024</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-success">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Insights Modal -->
+    <div class="modal fade" id="aiInsightsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-lightbulb"></i> Comprehensive AI Insights
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Resume Strength Analysis</h6>
+                            <canvas id="resumeStrengthChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Skill Recommendation</h6>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i> 
+                                    Add more quantitative achievements
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i> 
+                                    Highlight leadership experiences
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-lightbulb text-warning me-2"></i> 
+                                    Consider certifications in your field
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Personalized Recommendations</h6>
+                        <p>Based on your recent resume generations, we recommend focusing on:</p>
+                        <ul>
+                            <li>Emphasizing project management skills</li>
+                            <li>Incorporating more technical keywords</li>
+                            <li>Structuring achievements using STAR method</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                        Apply Recommendations
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Usage Chart
+        const usageCtx = document.getElementById('usageChart').getContext('2d');
+        new Chart(usageCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Resume Generation', 'Resume Optimization', 'Profile Updates'],
+                datasets: [{
+                    data: [45, 30, 25],
+                    backgroundColor: [
+                        'rgba(74, 144, 226, 0.8)',
+                        'rgba(80, 200, 120, 0.8)',
+                        'rgba(255, 193, 7, 0.8)'
+                    ]
+                }]
+            }
+        });
+
+        // Resume Strength Chart
+        const strengthCtx = document.getElementById('resumeStrengthChart').getContext('2d');
+        new Chart(strengthCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Technical Skills', 'Leadership', 'Communication', 'Project Management', 'Innovation'],
+                datasets: [{
+                    label: 'Current Resume Strength',
+                    data: [75, 60, 65, 55, 70],
+                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                    borderColor: 'rgba(74, 144, 226, 1)',
+                    pointBackgroundColor: 'rgba(74, 144, 226, 1)'
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
